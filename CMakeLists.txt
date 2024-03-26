@@ -1,27 +1,19 @@
-project(service)
 cmake_minimum_required(VERSION 3.27)
+project(service)
 set(CMAKE_CXX_STANDARD 20)
-set(USERVER_TESTSUITE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/uopenapi/userver/testsuite")
-set(USERVER_PYTHON "${CMAKE_BINARY_DIR}/venv-userver-cmake/bin/python")
 
-include(CTest)
-enable_testing()
+set(openapi-extension-userver_BUILD_UNIT_TESTS 0)
+set(openapi-extension-userver_BUILD_TEST_SERVICES 0)
 
 add_subdirectory(uopenapi)
-#
-CreateTrivialExe(
-        name "check_service"
-        path "/main"
-)
 
+add_executable(service main/main.cpp)
 
-target_link_libraries(${check_service_exe} PUBLIC openapi-extension-userver_library)
+target_link_libraries(service PUBLIC openapi-extension-userver_library)
+
+#uservers workarounds
+include(uopenapi/userver/cmake/UserverTestsuite.cmake)
+SET(USERVER_PYTHON "python3")
 userver_testsuite_add_simple()
-
-#include(GNUInstallDirs)
-#file(GLOB CONFIGS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/configs/*.yaml ${CMAKE_CURRENT_SOURCE_DIR}/configs/*.json)
-
-#install(TARGETS ${test_service_exe} DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT ${test_service_exe})
-#install(FILES ${CONFIGS_FILES} DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/${test_service_exe} COMPONENT ${test_service_exe})
 
 unset(check_service_exe)
