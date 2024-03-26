@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.27)
 project(service)
 set(CMAKE_CXX_STANDARD 20)
 
-set(openapi-extension-userver_BUILD_UNIT_TESTS 0)
-set(openapi-extension-userver_BUILD_TEST_SERVICES 0)
+set(openapi-extension-userver_BUILD_UNIT_TESTS false)
+set(openapi-extension-userver_BUILD_TEST_SERVICES false)
 
 add_subdirectory(uopenapi)
 
