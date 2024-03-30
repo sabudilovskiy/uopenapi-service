@@ -18,6 +18,7 @@ target_link_libraries(${src_module} PUBLIC openapi-extension-userver_library)
 target_link_libraries(${src_module} PUBLIC userver-postgresql)
 
 add_executable(service service/main.cpp)
+
 target_link_libraries(service PUBLIC ${src_module})
 
 include(uopenapi/userver/cmake/UserverTestsuite.cmake)
