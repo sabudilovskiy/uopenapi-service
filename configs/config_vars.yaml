@@ -5,3 +5,4 @@ logger-level: debug
 is_testing: false
 
 server-port: 8080
+dbconnection: 'postgresql://todo_user:top_secret@localhost:5432/todo_db'
