@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(openapi-extension-userver_BUILD_UNIT_TESTS false)
 set(openapi-extension-userver_BUILD_TEST_SERVICES false)
+set(USERVER_LTO OFF)
 
 add_subdirectory(uopenapi)
 
