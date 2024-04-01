@@ -89,7 +89,7 @@ jobs:
         run: >
           cmake 
           -B cmake_build_main -G Ninja
-          -DCMAKE_BUILD_TYPE={{matrix.type}} 
+          -DCMAKE_BUILD_TYPE=${{matrix.type}} 
           -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
           -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
 
@@ -97,7 +97,7 @@ jobs:
         run: >
           cmake 
           -B cmake_build_uopenapi -G Ninja -S uopenapi
-          -DCMAKE_BUILD_TYPE={{matrix.type}} 
+          -DCMAKE_BUILD_TYPE=${{matrix.type}} 
           -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
           -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
 
@@ -105,17 +105,28 @@ jobs:
         run: |
           cat cmake_build_main/build.ninja
 
-      - name: Cat ninja (openapi)
+      - name: Cat ninja (uopenapi)
         run: |
           cat cmake_build_uopenapi/build.ninja
 
-      - name: Build project
+      - name: Build project(uopenapi)
+        run: >
+          cmake 
+          --build cmake_build_uopenapi
+          --target all
+
+      - name: Run tests(uopenapi)
+        run: |
+          cd cmake_build_uopenapi
+          (test -t 1 && GTEST_COLOR=1 PYTEST_ADDOPTS="--color=yes" ctest -V) || ctest -V
+
+      - name: Build project (main)
         run: >
           cmake 
           --build cmake_build_main
           --target all
 
-      - name: Run tests
+      - name: Run tests (main)
         run: | 
           cd cmake_build_main
           (test -t 1 && GTEST_COLOR=1 PYTEST_ADDOPTS="--color=yes" ctest -V) || ctest -V
