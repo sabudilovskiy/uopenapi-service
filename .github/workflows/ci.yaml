@@ -85,48 +85,22 @@ jobs:
           ccache -M 2.0GB
           ccache -s
 
-      - name: Configure cmake project (main)
+      - name: Configure cmake project
         run: >
           cmake 
-          -B cmake_build_main -G Ninja
+          -B cmake_build_main 
+          -G Ninja
           -DCMAKE_BUILD_TYPE=${{matrix.type}} 
           -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
           -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
 
-      - name: Configure cmake project(uopenapi)
-        run: >
-          cmake 
-          -B cmake_build_uopenapi -G Ninja -S uopenapi
-          -DCMAKE_BUILD_TYPE=${{matrix.type}} 
-          -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
-          -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
-
-      - name: Cat ninja (main)
-        run: |
-          cat cmake_build_main/build.ninja
-
-      - name: Cat ninja (uopenapi)
-        run: |
-          cat cmake_build_uopenapi/build.ninja
-
-      - name: Build project(uopenapi)
-        run: >
-          cmake 
-          --build cmake_build_uopenapi
-          --target all
-
-      - name: Run tests(uopenapi)
-        run: |
-          cd cmake_build_uopenapi
-          (test -t 1 && GTEST_COLOR=1 PYTEST_ADDOPTS="--color=yes" ctest -V) || ctest -V
-
-      - name: Build project (main)
+      - name: Build project
         run: >
           cmake 
           --build cmake_build_main
           --target all
 
-      - name: Run tests (main)
+      - name: Run tests
         run: | 
           cd cmake_build_main
           (test -t 1 && GTEST_COLOR=1 PYTEST_ADDOPTS="--color=yes" ctest -V) || ctest -V
