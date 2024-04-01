@@ -85,19 +85,34 @@ jobs:
           ccache -M 2.0GB
           ccache -s
 
-      - name: Configure cmake project
+      - name: Configure cmake project (main)
         run: >
           cmake 
-          -B cmake_build
+          -B cmake_build_main -G Ninja
           -DCMAKE_BUILD_TYPE={{matrix.type}} 
           -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
           -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
+
+      - name: Configure cmake project(openapi)
+        run: >
+          cmake 
+          -B cmake_build_openapi -G Ninja -S openapi
+          -DCMAKE_BUILD_TYPE={{matrix.type}} 
+          -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
+          -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
+
+      - name: Cat ninja (main)
+        run: |
+          cat cmake_build_main/build.ninja
+
+      - name: Cat ninja (openapi)
+        run: |
+          cat cmake_build_openapi/build.ninja
 
       - name: Build project
         run: >
           cmake 
           --build cmake_build
-          -j 6
           --target all
 
       - name: Run tests
