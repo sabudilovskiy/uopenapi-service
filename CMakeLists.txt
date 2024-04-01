@@ -16,6 +16,7 @@ CreateTrivialPart(
 
 target_link_libraries(${src_module} PUBLIC openapi-extension-userver_library)
 target_link_libraries(${src_module} PUBLIC userver-postgresql)
+target_compile_options(${src_module} PUBLIC "-Wno-missing-field-initializers")
 
 add_executable(service service/main.cpp)
 
