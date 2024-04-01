@@ -112,10 +112,10 @@ jobs:
       - name: Build project
         run: >
           cmake 
-          --build cmake_build
+          --build cmake_build_main
           --target all
 
       - name: Run tests
         run: | 
-          cd cmake_build
+          cd cmake_build_main
           (test -t 1 && GTEST_COLOR=1 PYTEST_ADDOPTS="--color=yes" ctest -V) || ctest -V
