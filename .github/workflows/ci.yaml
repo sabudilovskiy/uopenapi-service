@@ -51,9 +51,12 @@ jobs:
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
+      - name: init submdule userver
+        run: |
+          sudo git submodule update --init --recursive
       - name: add Postgres package repository
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -85,19 +88,19 @@ jobs:
       - name: Configure cmake project
         run: >
           cmake 
-          -B _cmake_build_{{matrix.compiler}}_{{matrix.version}}_{{matrix.type}} 
-          -DCMAKE_BUILD_TYPE={{matrix.type}} 
+          -B cmake_build_main 
+          -G Ninja
+          -DCMAKE_BUILD_TYPE=${{matrix.type}} 
           -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
           -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
 
       - name: Build project
         run: >
           cmake 
-          --build _cmake_build_{{matrix.compiler}}_{{matrix.version}}_{{matrix.type}}
-          -j 6
+          --build cmake_build_main
           --target all
 
-      - name: Run ${{matrix.make}}
+      - name: Run tests
         run: | 
-          cd _cmake_build_{{matrix.compiler}}_{{matrix.version}}_{{matrix.type}}
+          cd cmake_build_main
           (test -t 1 && GTEST_COLOR=1 PYTEST_ADDOPTS="--color=yes" ctest -V) || ctest -V

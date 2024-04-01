@@ -1,9 +1,10 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.20)
 project(service)
 set(CMAKE_CXX_STANDARD 20)
 
 set(openapi-extension-userver_BUILD_UNIT_TESTS false)
 set(openapi-extension-userver_BUILD_TEST_SERVICES false)
+set(USERVER_LTO OFF)
 
 add_subdirectory(uopenapi)
 
@@ -15,11 +16,13 @@ CreateTrivialPart(
 )
 
 target_link_libraries(${src_module} PUBLIC openapi-extension-userver_library)
+target_link_libraries(${src_module} PUBLIC userver-postgresql)
+target_compile_options(${src_module} PUBLIC "-Wno-missing-field-initializers")
 
 add_executable(service service/main.cpp)
+
 target_link_libraries(service PUBLIC ${src_module})
 
-#uservers workarounds
 include(uopenapi/userver/cmake/UserverTestsuite.cmake)
 SET(USERVER_PYTHON "python3")
 userver_testsuite_add_simple()
