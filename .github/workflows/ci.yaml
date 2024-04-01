@@ -93,10 +93,10 @@ jobs:
           -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
           -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
 
-      - name: Configure cmake project(openapi)
+      - name: Configure cmake project(uopenapi)
         run: >
           cmake 
-          -B cmake_build_openapi -G Ninja -S openapi
+          -B cmake_build_uopenapi -G Ninja -S uopenapi
           -DCMAKE_BUILD_TYPE={{matrix.type}} 
           -DCMAKE_C_COMPILER=$(make find-c-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
           -DCMAKE_CXX_COMPILER=$(make find-cxx-compiler compiler=${{matrix.compiler}} version=${{matrix.version}})
@@ -107,7 +107,7 @@ jobs:
 
       - name: Cat ninja (openapi)
         run: |
-          cat cmake_build_openapi/build.ninja
+          cat cmake_build_uopenapi/build.ninja
 
       - name: Build project
         run: >
