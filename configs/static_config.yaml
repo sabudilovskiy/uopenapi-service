@@ -63,15 +63,16 @@ components_manager:
             blocking_task_processor: fs-task-processor
             dns_resolver: async
             sync-start: true
-        openapi-descriptor:
+        schema-storage:
             servers:
                 - description: stable
                   url: http://51.250.86.220
             load-enabled: true
-            path: /openapi
             info:
                 title: Some Server Doc
                 description: Some server
                 version: 1.0.0
+        schema-http-distributor:
+            path: /openapi
             method: GET
             task_processor: main-task-processor
