@@ -8,7 +8,7 @@
 #include <userver/formats/serialize/boost_uuid.hpp>
 
 namespace views::login{
-    using base = uopenapi::http::openapi_handler<Request,Response200,Response400 >;
+    using base = uopenapi::components::openapi_handler<Request,Response200,Response400 >;
     struct handler : base{
         static constexpr std::string_view kName = "login_handler";
         handler(const userver::components::ComponentConfig& cfg,
