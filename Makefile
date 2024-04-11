@@ -65,8 +65,7 @@ find-c-compiler:
 
 .PHONY: format
 format:
-	python3.10 uopenapi/scripts/generate_all_headers.py library/uopenapi uopenapi
-	python3.10 uopenapi/scripts/format_includes.py library boost uopenapi checks
+	python3.10 scripts/format_includes.py library boost uopenapi checks
 	find checks -name '*pp' -type f | xargs clang-format-17 -i
 	find library -name '*pp' -type f | xargs clang-format-17 -i
 	make add-eol P=tests

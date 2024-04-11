@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <uopenapi/enum/declare.hpp>
+#include <uopenapi/enum_helpers/declare.hpp>
 
 namespace models{
     UOPENAPI_DECLARE_ENUM(ErrorCode,
