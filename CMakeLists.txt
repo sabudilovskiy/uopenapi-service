@@ -11,9 +11,11 @@ include(FetchContent)
 FetchContent_Declare(
         uopenapi
         GIT_REPOSITORY https://github.com/sabudilovskiy/userver-openapi-extension
-        GIT_TAG "26b3160c9a3317fe15b7c569de70f1e3fbc70592"
+        GIT_TAG "da3a00a1c6b49a9a83522e183cc2d856f69efb18"
 )
 FetchContent_MakeAvailable(uopenapi)
+
+userver_setup_environment()
 
 CreateTrivialPart(
         name "src"
