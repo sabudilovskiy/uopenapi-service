@@ -15,6 +15,8 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(uopenapi)
 
+userver_setup_environment()
+
 CreateTrivialPart(
         name "src"
         path "/src"
